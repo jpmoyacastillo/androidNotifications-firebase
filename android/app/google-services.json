@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "34952763171",
+    "project_id": "capappnotifications",
+    "storage_bucket": "capappnotifications.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:34952763171:android:67c1b0e0a8af1c31edde96",
+        "android_client_info": {
+          "package_name": "io.ionic.starter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "34952763171-rbae6aocl2l069j2mll1dn61967m6gmr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCzyzSgiHbD-uOZ3E1nFcRBnqJY-72LNOI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "34952763171-rbae6aocl2l069j2mll1dn61967m6gmr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
