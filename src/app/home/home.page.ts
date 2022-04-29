@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import {
   ActionPerformed,
@@ -7,12 +8,16 @@ import {
   Token,
 } from '@capacitor/push-notifications';
 
+import { LocalNotifications } from '@capacitor/local-notifications';
+
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit {
+  constructor(private router: Router) {}
+
   ngOnInit() {
     console.log('Initializing HomePage');
 
@@ -28,9 +33,19 @@ export class HomePage implements OnInit {
       }
     });
 
+    LocalNotifications.schedule({
+      notifications: [
+        {
+          title: 'notificación local',
+          body: 'notification.body',
+          id: 1,
+        },
+      ],
+    });
+
     // On success, we should be able to receive notifications
     PushNotifications.addListener('registration', (token: Token) => {
-      alert('Push registration success, token: ' + token.value);
+      console.log('Push registration success, token: ' + token.value);
     });
 
     // Some issue with our setup and push will not work
@@ -39,10 +54,26 @@ export class HomePage implements OnInit {
     });
 
     // Show us the notification payload if the app is open on our device
+    // En primer plano
     PushNotifications.addListener(
       'pushNotificationReceived',
       (notification: PushNotificationSchema) => {
-        alert('Push received: ' + JSON.stringify(notification));
+        console.log(
+          'Push received en 1er plano: ' + JSON.stringify(notification)
+        );
+
+        LocalNotifications.schedule({
+          notifications: [
+            {
+              title: 'notificación local',
+              body: notification.body,
+              id: 1,
+              extra: {
+                data: notification.data,
+              },
+            },
+          ],
+        });
       }
     );
 
@@ -50,7 +81,23 @@ export class HomePage implements OnInit {
     PushNotifications.addListener(
       'pushNotificationActionPerformed',
       (notification: ActionPerformed) => {
-        alert('Push action performed: ' + JSON.stringify(notification));
+        console.log(
+          'Push action performed en segundo plano: ' +
+            JSON.stringify(notification)
+        );
+        this.router.navigate(['/alerts']);
+      }
+    );
+
+    // Method called when click on a local notification
+    LocalNotifications.addListener(
+      'localNotificationActionPerformed',
+      (notification) => {
+        console.log(
+          'Push action performed en segundo plano: ' +
+            JSON.stringify(notification)
+        );
+        this.router.navigate(['/alerts']);
       }
     );
   }
